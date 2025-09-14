@@ -1,6 +1,7 @@
 ﻿using Azure.Storage.Queues;
 using Azure.Storage.Queues.Models;
 using Microsoft.Extensions.Configuration;
+using Microsoft.WindowsAzure.Storage;
 using QueueDEMO.QueueInterfaces;
 
 namespace QueueDEMO.AzureQueueStorage
@@ -17,8 +18,16 @@ namespace QueueDEMO.AzureQueueStorage
 
             _queueClient = new QueueClient(connectionString, queueName);
 
-            // Ensure queue exists - try-catch could be used here?
-            _queueClient.CreateIfNotExists();
+            // Ensure queue exists 
+            try
+            {
+                _queueClient.CreateIfNotExists();
+            }
+            catch (StorageException ex)
+            {
+                //Logger.LogError($"Error creating queue: {ex.Message}");
+            }
+            
         }
 
         public async Task CreateMessage(string message)
