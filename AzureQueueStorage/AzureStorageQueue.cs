@@ -28,17 +28,7 @@ namespace QueueDEMO.AzureQueueStorage
 
         public async Task DeleteMessage()
         {
-            if (_lastPeekedMessage == null)
-                return;
-
-            var messages = await _queueClient.ReceiveMessagesAsync(1);
-            if (messages.Value.Length > 0)
-            {
-                var msg = messages.Value[0];
-                await _queueClient.DeleteMessageAsync(msg.MessageId, msg.PopReceipt);
-            }
-
-            _lastPeekedMessage = null;
+           //
         }
 
         public async Task<string> PeekMessage()
